@@ -150,6 +150,7 @@ function submitForm() {
 
   fetch("https://script.google.com/macros/s/AKfycbxcqVLLvhMBYvMJOhKnMp7C-fjnVtyCzpE4lHmxcAp5xPzmOdSfZxVdrMicj9f1u9HC/exec", {
     method: "POST",
+    mode: "cors",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
   })
