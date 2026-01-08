@@ -139,22 +139,20 @@ function resetDropdown(dropdown) {
 }
 
 function submitForm() {
-  const data = {
+  const params = new URLSearchParams({
     category: category.value,
     MachineModelName: MachineModelName.value,
     type: type.value,
     item: item.value,
     priority: document.getElementById("priority").value,
     description: document.querySelector("textarea").value
-  };
+  });
 
   fetch("https://script.google.com/macros/s/AKfycbzEniopVnAVR37Pm0RLulZYK8bK0PusQO-7Qt3QU78yHTVdRO26GF5l_JSzqJHxKbtA/exec", {
     method: "POST",
-    mode: "cors",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
+    body: params
   })
-  .then(res => res.json())
+  .then(res => res.text())
   .then(() => alert("Form submitted successfully!"))
   .catch(err => {
     console.error(err);
