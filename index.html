@@ -2,58 +2,62 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Connected Dropdown Form</title>
+    <title>Connected Dropdown Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
 
-<style>
-body {
-  font-family: Arial, sans-serif;
-}
+        form {
+            max-width: 538px;
+        }
 
-form {
-  max-width: 538px;
-}
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
 
-label {
-  display: block;
-  margin-top: 15px;
-  font-weight: bold;
-}
-
-select,
-textarea,
-button {
-  width: 100%;
-  margin-top: 5px;
-  padding: 8px;
-}
-</style>
+        select,
+        textarea,
+        button {
+            width: 100%;
+            margin-top: 5px;
+            padding: 8px;
+        }
+    </style>
 </head>
-
 <body>
 
 <form id="exampleForm">
 
+  <!-- Dropdown 1 -->
   <label>Location</label>
   <select id="category">
-    <option value="">Select Location</option>
+    <option value="">Select Location</option>x
     <option value="Athens">Athens</option>
+    <option value="Conyers">Conyers</option>
   </select>
 
+  <!-- Dropdown 2 -->
   <label>Washer or Dryer</label>
   <select id="MachineModelName" disabled>
     <option value="">Select Washer or Dryer</option>
   </select>
 
+  <!-- Dropdown 3 -->
   <label>Type</label>
   <select id="type" disabled>
     <option value="">Select Type</option>
   </select>
 
+  <!-- Dropdown 4 -->
   <label>Machine</label>
   <select id="item" disabled>
     <option value="">Select Machine</option>
   </select>
 
+  <!-- Dropdown 5 (Independent) -->
   <label>Priority</label>
   <select id="priority">
     <option value="">Select Priority</option>
@@ -62,36 +66,120 @@ button {
     <option value="high">High</option>
   </select>
 
+  <!-- Optional Textbox -->
   <label>Description of Problem</label>
   <textarea rows="4" placeholder="Enter description..."></textarea>
-
+  
   <button type="button" onclick="submitForm()">Submit</button>
+
 </form>
 
 <script>
-const subcategories = {
-  Athens: ["Dexter", "Speed_Queen", "Dryer_Huebsch", "Dryer_Dexter", "Dryer_Speed_Queen"],
-  location2: ["Operating System", "Application"]
-};
 
-const types = {
-  Dexter: ["Dexter"],
-  Speed_Queen: ["Speed Queen"],
-  Dryer_Huebsch: ["Huebsch"],
-  Dryer_Dexter: ["Dexter"],
-  Dryer_Speed_Queen: ["Speed Queen"],
-  "Operating System": ["Windows", "Linux"],
-  Application: ["Web App", "Mobile App"]
-};
+const data = {
+  Athens: {
+    Washer: {
+      Dexter: [
+        "#1 Model:Dexter-WCAD18KCS-12/Serial:2070200497878/Load:18lb",
+        "#2 Model:Dexter-WCAD18KCS-12/Serial:2080600510920/Load:18lb",
+        "#5 Model:Dexter-WCN55AEK/Serial:20203000449141/Load:55lb",
+        "#6 Model:Dexter-WCN55AEK/Serial:20203000449139/Load:55lb",
+        "#7 Model:Dexter-WCAD18KCS-10/Serial:20601000487495/Load:18lb",
+        "#8 Model:Dexter-WCAD18KCS-10/Serial:20512000486143/Load:18lb",
+        "#10 Model:Dexter-WCAD40KCS-12/Serial:2070200498319/Load:40lb",
+        "#10.5 Model:Dexter-WCAD40KCS-12/Serial:2070200497691/Load:40lb",
+        "#11 Model:Dexter-WCAD18KCS-10/Serial:20512000486145/Load:18lb",
+        "#12 Model:Dexter-WCAD18KCS-10/Serial:20601000486699/Load:18lb",
+        "#13 Model:Dexter-WCAD18KCS-12/Serial:2080200508442/Load:18lb",
+        "#14 Model:Dexter-WCAD18KCS-12/Serial:20806000510919/Load:18lb",
+        "#15 Model:Dexter-WCN40AASS/Serial:20401000466782/Load:40lb",
+        "#16 Model:Dexter-WCN40AASS/Serial:20410000474290/Load:40lb",
+        "#17 Model:Dexter-WCAD40KCS-12/Serial:2070200497686/Load:40lb",
+        "#18 Model:Dexter-WCAD40KCS-12/Serial:2070200497684/Load:40lb"
+      ],
+      Speed_Queen: [
+        "#3 Model:Speed Queen-SCN080LCFX12001",
+        "#4 Model:Speed Queen-ICN080KCFX12001/Serial:1709041995/Load:80lb",
+        "#9 Model:Speed Queen-ICN080KCFX12001/Serial:1705003678/Load:80lb"
+      ]
+    },
 
-const items = {
-  Dexter: ["#1 Model:Dexter-WCAD18KCS-12/Serial:2070200497878/Load Capacity:18lb", "#2 Model:Dexter-WCAD18KCS-12/Serial:2080600510920/Load Capacity:18lb", "#5 Model:Dexter-WCN55AEK/Serial:20203000449141/Load Capacity:55lb", "#6 Model:Dexter-WCN55AEK/Serial:20203000449139/Load Capacity:55lb", "#7 Model:Dexter-WCAD18KCS-10/Serial:20601000487495/Load Capacity:18lb", "#8 Model:Dexter-WCAD18KCS-10/Serial:20512000486143/Load Capacity:18lb", "#10 Model:Dexter-WCAD40KCS-12/Serial:2070200498319/Load Capacity:40lb", "#10.5 Model:Dexter-WCAD40KCS-12/Serial:2070200497691/Load Capacity:40lb", "#11 Model:Dexter-WCAD18KCS-10/Serial:20512000486145/Load Capacity:18lb", "#12 Model:Dexter-WCAD18KCS-10/Serial:20601000486699/Load Capacity:18lb", "#13 Model:Dexter-WCAD18KCS-12/Serial:2080200508442/Load Capacity:18lb", "#14 Model:Dexter-WCAD18KCS-12/Serial:20806000510919/Load Capacity:18lb", "15 Model:Dexter-WCN40AASS/Serial:20401000466782/Load Capacity:40lb", "#16 Model:Dexter-WCN40AASS/Serial:20410000474290/Load Capacity:40lb", "#17 Model:Dexter-WCAD40KCS-12/Serial:2070200497686/Load Capacity:40lb", "#18 Model:Dexter-WCAD40KCS-12/Serial:2070200497684/Load Capacity:40lb"],
-  Speed_Queen: ["#3 Model:Speed Queen-SCN080LCFX12001", "#4 Model:Speed Queen-ICN080KCFX12001/Serial:1709041995/Load Capacity:80lb", "#9 Model:Speed Queen-ICN080KCFX12001/Serial:1705003678/Load Capacity:80lb"],
-  Dryer_Huebsch: ["#20 Model:Huebsch-HTT45NBCG2G2N02/Serial:HTT45NBCG2G2N02/Load Capacity:45lb", "#21 Model:Huebsch-HTT45NBCG2G2N02/Serial:904000153/Load Capacity:45lb", "#22 Model:Huebsch-HTT45NBCG2G2N02/Serial:904000151/Load Capacity:45lb", "#24 Model:Huebsch-HTT45N/Serial:2103031938/Load Capacity:45lb"],
-  Dryer_Dexter: ["#23 Model:Dexter-DL2X30Q", "#25 Model:Dexter-DDAD30KCS-65/Serial:207100020000702/Load Capacity:30lb", "#26 Model:Dexter-DTCK80SS/Serial:2070700198182/Load Capacity:80lb", "#30 Model:Dexter-DL2X30Q/Serial:1990200129853/Load Capacity:30lb"],
-  Dryer_Speed_Queen: ["Speed Queen Dryer"],
-  "Operating System": ["Windows 11", "Ubuntu", "macOS"],
-  Application: ["CRM", "Accounting Software"]
+    Dryer: {
+      Huebsch: [
+        "#20 Model:Huebsch-HTT45NBCG2G2N02/Serial:HTT45NBCG2G2N02/Load:45lb",
+        "#21 Model:Huebsch-HTT45NBCG2G2N02/Serial:904000153/Load:45lb",
+        "#22 Model:Huebsch-HTT45NBCG2G2N02/Serial:904000151/Load:45lb",
+        "#24 Model:Huebsch-HTT45N/Serial:2103031938/Load:45lb"
+      ],
+      Dexter: [
+        "#23 Model:Dexter-DL2X30Q",
+        "#25 Model:Dexter-DDAD30KCS-65/Serial:207100020000702/Load:30lb",
+        "#26 Model:Dexter-DTCK80SS/Serial:2070700198182/Load:80lb",
+        "#30 Model:Dexter-DL2X30Q/Serial:1990200129853/Load:30lb"
+      ],
+      Speed_Queen: [
+        "Speed Queen Dryer"
+      ]
+    }
+  },
+
+  Conyers: {
+    Washer: {
+      Dexter: [
+        "#1 Model:Dexter-WCAD75KCS-12/Serial:2070300499286/Load:80lb",
+        "#2 Model:Dexter-WCAD55KCS-12/Serial:2070600501085/Load:60lb",
+        "#3 Model:Dexter-WCAD55KCS-12/Serial:2070600501089/Load:60lb",
+        "#9 Model:Dexter-WCAD40KCS-12/Serial:2070200497717/Load:40lb",
+        "#10 Model:Dexter-WCAD40KCS-12/Serial:2070100497482/Load:40lb",
+        "#11 Model:Dexter-WCAD40KCS-12/Serial:2070100497483/Load:40lb",
+        "#12 Model:Dexter-WCAD40KCS-12/Serial:2070200498318/Load:40lb",
+        "#17 Model:Dexter-WCN25AASS/Serial:2000800435450/Load:25lb",
+        "#18 Model:Dexter-WCN25AASS/Serial:2000800435498/Load:25lb",
+        "#19 Model:Dexter-WCN25AASS/Serial:2000800435451/Load:25lb",
+        "#20 Model:Dexter-WCN25AASS/Serial:20009000436181/Load:25lb"
+      ],
+      Speed_Queen: [
+        "#04 Model:Speed Queen-SCN080JCFX12001/Serial:1302007955/Load:80lb", 
+        "#15 Model:Speed Queen-SCN040JCFX12001/Serial:1301013845/Load:40lb",
+        "#16 Model:Speed Queen-SCN040JCFX12001/Serial:1301013846/Load:40lb"
+      ],
+      Huebsch: [
+        "#5 Model:Huebsch-HCT040/Serial:2107026636/Load:40lb",
+        "#6 Model:Huebsch-HCT040/Serial:2108026637/Load:40lb",
+        "#7 Model:Huebsch-HCT040/Serial:2107007813/Load:40lb",
+        "#8 Model:Huebsch-HCT040/Serial:2107007802/Load:40lb",
+        "#13 Model:Huebsch-HCT060/Serial:2108005918/Load:60lb",
+        "#14 Model:Huebsch-HCT060/Serial:2108005914/Load:60lb"
+      ],
+      Wascomat: [
+        "#21 Model:Wascomat-W645CC/Serial:00651/0403690/Load:45lb",
+        "#22 Model:Wascomat-W640/Serial:00650/0014820/Load:40lb",
+        "#23 Model:Wascomat-W640/Serial:200650/0014914/Load:40lb",
+        "#24 Model:Wascomat-W620CC/Serial:00521/0411270/Load:45lb"
+      ]
+      
+      
+    },
+    Dryer: {
+      Huebsch: [
+        "#28 Model:Huebsch-HTT30N/Serial:2103028370/Load:30lb",
+        "#29 Model:Huebsch-HTT30N/Serial:2103018174/Load:30lb",
+        "#30 Model:Huebsch-HTT30N/Serial:2103028366/Load:30lb",
+        "#31 Model:Huebsch-HTT45N/Serial:2103031941/Load:45lb",
+        "#32 Model:Huebsch-HTT45N/Serial:2103031944/Load:45lb",
+        "#33 Model:Huebsch-HTT45N/Serial:2103031949/Load:45lb",
+        "#34 Model:Huebsch-HTT45N/Serial:2103031943/Load:45lb",
+        "#35 Model:Huebsch-HTT45N/Serial:2103031945/Load:45lb",
+        "#36 Model:Huebsch-HTT45N/Serial:2103031946/Load:45lb",
+        "#37 Model:Huebsch-HT075N/Serial:2102048546/Load:75lb"
+      ],
+      Dexter: [
+          "#25 Model:Dexter-DDAD30KCS-65/Serial:2070500197059/Load:30lb",
+          "#26 Model:Dexter-DDAD30KCS-65/Serial:/Load:30lb",
+          "#27 Model:Dexter-DDAD30KCS-65/Serial:2070500197061/Load:30lb"
+      ]
+    }
+  }
 };
 
 const category = document.getElementById("category");
@@ -100,64 +188,76 @@ const type = document.getElementById("type");
 const item = document.getElementById("item");
 
 category.addEventListener("change", () => {
-  resetDropdown(MachineModelName);
-  resetDropdown(type);
-  resetDropdown(item);
+  reset(MachineModelName);
+  reset(type);
+  reset(item);
 
-  if (category.value && subcategories[category.value]) {
-    populateDropdown(MachineModelName, subcategories[category.value]);
+  if (category.value) {
+    populate(MachineModelName, Object.keys(data[category.value]));
     MachineModelName.disabled = false;
   }
 });
 
 MachineModelName.addEventListener("change", () => {
-  resetDropdown(type);
-  resetDropdown(item);
+  reset(type);
+  reset(item);
 
   if (MachineModelName.value) {
-    populateDropdown(type, types[MachineModelName.value] || []);
-    populateDropdown(item, items[MachineModelName.value] || []);
+    populate(type, Object.keys(data[category.value][MachineModelName.value]));
     type.disabled = false;
+  }
+});
+
+type.addEventListener("change", () => {
+  reset(item);
+
+  if (type.value) {
+    populate(item, data[category.value][MachineModelName.value][type.value]);
     item.disabled = false;
   }
 });
 
-function populateDropdown(dropdown, values) {
-  if (!values) return;
-  values.forEach(val => {
-    const option = document.createElement("option");
-    option.value = val;
-    option.textContent = val;
-    dropdown.appendChild(option);
+function populate(dropdown, values) {
+  values.forEach(v => {
+    const o = document.createElement("option");
+    o.value = v;
+    o.textContent = v;
+    dropdown.appendChild(o);
   });
 }
 
-function resetDropdown(dropdown) {
-  dropdown.innerHTML = '<option value="">Select</option>';
+function reset(dropdown) {
+  dropdown.innerHTML = `<option value="">Select</option>`;
   dropdown.disabled = true;
 }
 
-function submitForm() {
-  const params = new URLSearchParams({
-    category: category.value,
-    MachineModelName: MachineModelName.value,
-    type: type.value,
-    item: item.value,
-    priority: document.getElementById("priority").value,
-    description: document.querySelector("textarea").value
-  });
 
-  fetch("https://script.google.com/macros/s/AKfycbwcp-wlsn1Oqxc86x5WlMnIBmDhhAYHbPsCe7R-PiRTRQdsuLxqbjg4Wg3DYj-ARVgd/exec", {
-    method: "POST",
-    body: params
-  })
-  .then(res => res.text())
-  .then(() => alert("Form submitted successfully!"))
-  .catch(err => {
-    console.error(err);
-    alert("Error submitting form");
-  });
+function submitForm() {
+    const data = {
+        category: document.getElementById("dropdown1").value,
+        MachineModelName: document.getElementById("dropdown2").value,
+        type: document.getElementById("dropdown3").value,
+        item: document.getElementById("dropdown4").value,
+        description: document.querySelector("textarea").value
+    };
+
+    fetch("https://script.google.com/macros/s/AKfycbxcqVLLvhMBYvMJOhKnMp7C-fjnVtyCzpE4lHmxcAp5xPzmOdSfZxVdrMicj9f1u9HC/exec", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => response.json())
+    .then(result => {
+        alert("Form submitted successfully!");
+    })
+    .catch(error => {
+        alert("Error submitting form");
+        console.error(error);
+    });
 }
+
 </script>
 
 </body>
