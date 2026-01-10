@@ -233,29 +233,25 @@ function reset(dropdown) {
 
 
 function submitForm() {
-    const data = {
-        category: document.getElementById("dropdown1").value,
-        MachineModelName: document.getElementById("dropdown2").value,
-        type: document.getElementById("dropdown3").value,
-        item: document.getElementById("dropdown4").value,
-        description: document.querySelector("textarea").value
-    };
+  const params = new URLSearchParams({
+    category: document.getElementById("category").value,
+    MachineModelName: document.getElementById("MachineModelName").value,
+    type: document.getElementById("type").value,
+    item: document.getElementById("item").value,
+    priority: document.getElementById("priority").value,
+    description: document.querySelector("textarea").value
+  });
 
-    fetch("https://script.google.com/macros/s/AKfycbxcqVLLvhMBYvMJOhKnMp7C-fjnVtyCzpE4lHmxcAp5xPzmOdSfZxVdrMicj9f1u9HC/exec", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-            "Content-Type": "application/json"
-        }
-    })
-    .then(response => response.json())
-    .then(result => {
-        alert("Form submitted successfully!");
-    })
-    .catch(error => {
-        alert("Error submitting form");
-        console.error(error);
-    });
+  fetch("https://script.google.com/macros/s/AKfycbxcqVLLvhMBYvMJOhKnMp7C-fjnVtyCzpE4lHmxcAp5xPzmOdSfZxVdrMicj9f1u9HC/exec", {
+    method: "POST",
+    body: params
+  })
+  .then(res => res.text())
+  .then(() => alert("Form submitted successfully!"))
+  .catch(err => {
+    console.error(err);
+    alert("Error submitting form");
+  });
 }
 
 </script>
